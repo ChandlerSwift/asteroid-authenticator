@@ -50,14 +50,11 @@ Application {
 
     Canvas {
         id: display
-        property var seconds: 0
         anchors.fill: parent
         smooth: true
         renderStrategy: Canvas.Threaded
         onPaint: {
             var ctx = getContext("2d")
-            var rot = (seconds - 15)*6
-            var rot_half = (seconds - 22)*6
             ctx.reset()
             ctx.shadowColor = (0, 0, 0, 0.25)
             ctx.shadowOffsetX = 0
@@ -65,17 +62,18 @@ Application {
             ctx.shadowBlur = parent.height*0.00625
             ctx.lineCap="round"
             ctx.beginPath()
-            ctx.arc(parent.width/2, parent.height/2, width / 2.2, -89.5 * radian, rot* radian, false);
+            var fraction_of_circle = (new Date().getSeconds() % 30) / 30
+            var start_angle = -0.5*Math.PI
+            var end_angle = start_angle + (2 * Math.PI * fraction_of_circle)
+            ctx.arc(parent.width/2, parent.height/2, width / 2.2, start_angle-0.01, end_angle+0.01, true);
             ctx.lineWidth = parent.width * 0.01
-            ctx.strokeStyle = Qt.rgba(0.871, 0.165, 0.102, 0.95)
+            ctx.strokeStyle = Qt.rgba(1,1,1,0.5)
             ctx.stroke()
-            if (seconds % 30 == 1) {
+            if (fraction_of_circle === 0) { // update the code
                 codeLabel.text = twofactor.getCode().toString().padStart(6, '0')
             }
         }
     }
-
-    property var radian: 0.01745
 
     Timer {
         interval: 1000
@@ -83,7 +81,6 @@ Application {
         repeat: true
         triggeredOnStart: true
         onTriggered: {
-            display.seconds = new Date().getSeconds()
             display.requestPaint()
         }
     }
