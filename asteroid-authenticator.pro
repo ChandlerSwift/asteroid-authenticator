@@ -21,11 +21,3 @@ HEADERS += \
 CONFIG += qmltypes
 QML_IMPORT_NAME = com.chandlerswift.asteroidos.authenticator
 QML_IMPORT_MAJOR_VERSION = 1
-
-INCLUDEPATH += /tmp/botan/botan/build/include
-DEPENDPATH += /tmp/botan/botan/build/include
-
-unix:!macx: LIBS += -L/tmp/botan/botan/ -lbotan-2
-
-INCLUDEPATH += $$PWD/botan
-DEPENDPATH += $$PWD/botan
