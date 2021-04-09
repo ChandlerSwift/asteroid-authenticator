@@ -11,7 +11,15 @@ Proper time set (including the time zone)
 > precision of the time used by the prover affects how often the
 > clock synchronization should be done; see Section 6.
 
-### Bulding
+You may want `ntp` to keep your clock synced. At one point, AsteroidOS shipped
+with an ntp client configured, but it looks like that is no longer the case.
+AsteroidOS doesn't seem to have an NTP client in its repos either (as of
+2021-04-08), but I've built it; you can get it from the repos at
+https://home.chandlerswift.com/asteroid/ -- just update
+`/etc/opkg/base-feeds.conf` to point at my repos, `opkg update`, and
+`opkg install ntp`.
+
+### Building
 ```
 mkdir build
 cd build
